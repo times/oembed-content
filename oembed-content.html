@@ -83,7 +83,7 @@ Example:
           var data = res.xhr.response;
           switch(data.type) {
             case 'rich':
-            this.$.response.innerHTML = data.html;
+            this.innerHTML = data.html;
             this.properties.width = data.width ? data.width : 'auto';
             this.properties.height = data.height ? data.height : 'auto';
             break;
