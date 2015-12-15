@@ -1,0 +1,20 @@
+{
+  "name": "oembed-content",
+  "version": "1.0.0",
+  "description": "An element providing a starting point for your own reusable Polymer elements.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    ""
+  ],
+  "author": "Ændrew Rininsland <aendrew.rininsland@thetimes.co.uk> (http://www.aendrew.com/)",
+  "license": "ISC",
+  "dependencies": {
+    "oembed": "^0.1.0"
+  }
+}
