@@ -58,7 +58,7 @@ Example:
         /**
          * The CORS proxy endpoint to use.
          * Don't have a oEmbed CORS proxy? <br/>
-         * Use [times/oembed-proxy](https://github.com/times/oembed-proxy).
+         * Use [aendrew/oembed-proxy](https://github.com/aendrew/oembed-proxy).
          *
          * @default http://oembed.timesdev.tools/
          * @type String
@@ -78,14 +78,25 @@ Example:
         // Get response from oEmbed CORS proxy.
         var url = this.properties.endpoint + this.url;
         var req = this.$.xhr.send({url: url, handleAs: 'json'});
-
         req.then(function(res) {
           var data = res.xhr.response;
           switch(data.type) {
             case 'rich':
-            this.innerHTML = data.html;
-            this.properties.width = data.width ? data.width : 'auto';
-            this.properties.height = data.height ? data.height : 'auto';
+            var html = data.html.replace(/<script.*><\/script>/g, '');
+            var scripts = data.html.match(/<script.*><\/script>/);
+            this.innerHTML = html; // Assign HTML content to body of element
+
+            scripts.forEach(function(scriptEl, index){ // Enqueue each script on the page.
+              var url = new DOMParser().parseFromString(scriptEl, 'text/html').querySelector('script').src;
+              var script = document.createElement("script");
+              script.src = url;
+              script.onload = this._richScriptsLoaded;
+              script.id = 'rich-' + index;
+              document.head.appendChild(script);
+            });
+
+            this.width = data.width ? data.width : 'auto';
+            this.height = data.height ? data.height : 'auto';
             break;
           }
         }.bind(this),
@@ -109,7 +120,21 @@ Example:
         // removed from a document.
         //
         // Use this to clean up anything you did in `attached`.
+      },
+
+      /**
+       * Fire an event on script load.
+       */
+      _richScriptsLoaded: function(e, detail) {
+        this.fire('oembed-script-loaded', detail);
       }
+
+      /**
+       * Fired when a `rich` oEmbed script is ready.
+       *
+       * @event oembed-script-loaded
+       * @param {object} Script details.
+       */
     });
   </script>
 </dom-module>
