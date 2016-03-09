@@ -1,0 +1,140 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+An element for loading oEmbed content.
+
+Example:
+
+    <oembed-content></oembed-content>
+
+Example:
+
+    <oembed-content url="https://twitter.com/aendrew/status/538358682711752704"></oembed-content>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="oembed-content">
+  <template>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+    </style>
+    <content id="response" width="{{width}}" height="{{height}}"></content>
+    <iron-request id="xhr"></iron-request>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'oembed-content',
+
+      properties: {
+        /**
+         * The width of the output
+         * @type Number
+         */
+        width: Number,
+
+        /**
+         * The height of the output.
+         * @type Number
+         */
+        height: Number,
+
+        /**
+         * The CORS proxy endpoint to use.
+         * Don't have a oEmbed CORS proxy? <br/>
+         * Use [aendrew/oembed-proxy](https://github.com/aendrew/oembed-proxy).
+         *
+         * @default http://oembed.timesdev.tools/
+         * @type String
+         */
+        endpoint: 'http://oembed.timesdev.tools/',
+
+        /**
+         * The URL to fetch.
+         * @type String
+         */
+        url: String
+      },
+
+      // Element Lifecycle
+
+      ready: function() {
+        // Get response from oEmbed CORS proxy.
+        var url = this.properties.endpoint + this.url;
+        var req = this.$.xhr.send({url: url, handleAs: 'json'});
+        req.then(function(res) {
+          var data = res.xhr.response;
+          switch(data.type) {
+            case 'rich':
+            var html = data.html.replace(/<script.*><\/script>/g, '');
+            var scripts = data.html.match(/<script.*><\/script>/);
+            this.innerHTML = html; // Assign HTML content to body of element
+
+            scripts.forEach(function(scriptEl, index){ // Enqueue each script on the page.
+              var url = new DOMParser().parseFromString(scriptEl, 'text/html').querySelector('script').src;
+              var script = document.createElement("script");
+              script.src = url;
+              script.onload = this._richScriptsLoaded;
+              script.id = 'rich-' + index;
+              document.head.appendChild(script);
+            });
+
+            this.width = data.width ? data.width : 'auto';
+            this.height = data.height ? data.height : 'auto';
+            break;
+          }
+        }.bind(this),
+        function(err){
+          console.dir(err);
+        });
+
+      },
+
+      attached: function() {
+        // `attached` fires once the element and its parents have been inserted
+        // into a document.
+        //
+        // This is a good place to perform any work related to your element's
+        // visual state or active behavior (measuring sizes, beginning animations,
+        // loading resources, etc).
+      },
+
+      detached: function() {
+        // The analog to `attached`, `detached` fires when the element has been
+        // removed from a document.
+        //
+        // Use this to clean up anything you did in `attached`.
+      },
+
+      /**
+       * Fire an event on script load.
+       */
+      _richScriptsLoaded: function(e, detail) {
+        this.fire('oembed-script-loaded', detail);
+      }
+
+      /**
+       * Fired when a `rich` oEmbed script is ready.
+       *
+       * @event oembed-script-loaded
+       * @param {object} Script details.
+       */
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,29 @@
+{
+  "name": "oembed-content",
+  "version": "1.0.0",
+  "authors": [
+    "Ændrew Rininsland <aendrew@aendrew.com>"
+  ],
+  "description": "An element to easily load oEmbed content into the page.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed",
+    "oembed"
+  ],
+  "main": "oembed-content.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/times/oembed-content",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "^3.4.0"
+  }
+}
