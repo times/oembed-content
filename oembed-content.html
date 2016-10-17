@@ -28,12 +28,8 @@ Example:
 
 <dom-module id="oembed-content">
   <template>
-    <style>
-      :host {
-        display: block;
-        box-sizing: border-box;
-      }
-    </style>
+    <link rel="stylesheet" href="css/oembed-content-template.css" type="text/css">
+    <link rel="stylesheet" href="css/times-gill-font-fix.css" type="text/css">
     <content id="response" width="{{width}}" height="{{height}}"></content>
     <iron-request id="xhr"></iron-request>
   </template>
@@ -82,12 +78,14 @@ Example:
           var data = res.xhr.response;
           switch(data.type) {
             case 'rich':
-            var html = data.html.replace(/<script.*><\/script>/g, '');
+            //var html = data.html.replace(/<script.*><\/script>/g, '');
+            var html = data.html;
             var scripts = data.html.match(/<script.*><\/script>/);
             this.innerHTML = html; // Assign HTML content to body of element
 
             scripts.forEach(function(scriptEl, index){ // Enqueue each script on the page.
-              var url = new DOMParser().parseFromString(scriptEl, 'text/html').querySelector('script').src;
+              var scriptTarget = new DOMParser().parseFromString(scriptEl, 'text/html').querySelector('script');
+              var url = scriptTarget.getAttribute("src");
               var script = document.createElement("script");
               script.src = url;
               script.onload = this._richScriptsLoaded;

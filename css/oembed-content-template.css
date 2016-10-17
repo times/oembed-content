@@ -1,0 +1,17 @@
+oembed-content,
+:host {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+  oembed-content blockquote,
+  :host blockquote {
+    margin: 0; }
+  oembed-content .twitter-tweet,
+  :host .twitter-tweet {
+    font-family: TimesDigital-Regular;
+    font-size: 1.8rem;
+    line-height: 3rem; }
+    @media only screen and (max-width: 768px) {
+      oembed-content .twitter-tweet,
+      :host .twitter-tweet {
+        font-size: 1.7rem;
+        line-height: 2.6rem; } }
