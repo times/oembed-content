@@ -1,6 +1,22 @@
 oembed-content,
 :host {
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  blockquote {
+    margin: 0;
+  }
+
   .twitter-tweet {
-    background-color: pink;
+    font-family: TimesDigital-Regular;
+    font-size: 1.8rem;
+    line-height: 3rem;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 1.7rem;
+      line-height: 2.6rem;
+    }
+
   }
 }
