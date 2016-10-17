@@ -1,29 +1,17 @@
 {
-  "name": "oembed-content",
-  "version": "1.0.0",
-  "authors": [
-    "Ændrew Rininsland <aendrew@aendrew.com>"
-  ],
+  "name": "oembed-content-template",
+  "version": "1.1.0",
   "description": "An element to easily load oEmbed content into the page.",
-  "keywords": [
-    "web-component",
-    "polymer",
-    "seed",
-    "oembed"
-  ],
+  "authors": ["Ændrew Rininsland <aendrew@aendrew.com>",
+              "Basile Simon <basile.simon@thetimes.co.uk"],
   "main": "oembed-content.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/times/oembed-content",
-  "ignore": [
-    "/.*",
-    "/test/"
-  ],
+  "ignore": ["/.*", "/test/"],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0",
+    "polymer": "1.6.0",
     "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^3.4.0"
+    "iron-component-page": "1.1.7"
   }
 }

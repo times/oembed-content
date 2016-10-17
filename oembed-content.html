@@ -28,12 +28,8 @@ Example:
 
 <dom-module id="oembed-content">
   <template>
-    <style>
-      :host {
-        display: block;
-        box-sizing: border-box;
-      }
-    </style>
+    <link rel="stylesheet" href="css/oembed-content-template.css" type="text/css">
+    <link rel="stylesheet" href="css/times-gill-font-fix.css" type="text/css">
     <content id="response" width="{{width}}" height="{{height}}"></content>
     <iron-request id="xhr"></iron-request>
   </template>
