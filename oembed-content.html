@@ -56,10 +56,10 @@ Example:
          * Don't have a oEmbed CORS proxy? <br/>
          * Use [aendrew/oembed-proxy](https://github.com/aendrew/oembed-proxy).
          *
-         * @default http://oembed.timesdev.tools/
+         * @default https://oembed.timesdev.tools/
          * @type String
          */
-        endpoint: 'http://oembed.timesdev.tools/',
+        endpoint: 'https://oembed.timesdev.tools/',
 
         /**
          * The URL to fetch.
@@ -71,6 +71,9 @@ Example:
       // Element Lifecycle
 
       ready: function() {
+        // url decode string
+        this.url = decodeURIComponent(this.url);
+
         // Get response from oEmbed CORS proxy.
         var url = this.properties.endpoint + this.url;
         var req = this.$.xhr.send({url: url, handleAs: 'json'});
